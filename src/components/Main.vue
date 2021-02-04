@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <h1>Vue Mobile Hover</h1>
-    <p>hoverのみ</p>
-    <button class="btn" @click="countUp">Touch me!</button>
-        <p>hoverとtouch event</p>
-    <button class="btn" @click="countDown">Touch me!</button>
+    <p>hover</p>
+    <button class="btn" @click="countUp">UP</button>
+    <p>pointer events</p>
+    <button class="btn" @click="countDown">DOWN</button>
     <p>count: <input v-model="count" readonly></p>
   </div>
 </template>
@@ -57,6 +57,10 @@ button {
   &:hover {
     background: blue;
     color: white;
+  }
+  &:active {
+    background: white;
+    color: blue;
   }
 
 }
