@@ -1,15 +1,17 @@
 <template>
   <div class="container">
     <h1>Vue Mobile Hover</h1>
-    <p>hover</p>
-    <button class="btn" @click="countUp">UP</button>
-    <p>pointer events</p>
-    <button class="btn" @click="countDown">DOWN</button>
+    <p>Hoverのみ</p>
+    <button class="btn" :class="{ pc: !mobile}" @click="countUp">UP</button>
+    <p>Touch Event実装</p>
+    <button class="btn" :class="{ pc: !mobile}" @click="countDown" @touchstart="touchStart" @touchend="touchEnd">DOWN</button>
     <p>count: <input v-model="count" readonly></p>
   </div>
 </template>
 
 <script>
+import isMobile from "ismobilejs";
+
 export default {
   name: "Main",
 
@@ -19,12 +21,24 @@ export default {
     }
   },
 
+  computed: {
+    mobile () {
+      return isMobile(window.navigator).any;
+    }
+  },
+
   methods: {
-    countUp() {
-      this.count++
+    countUp(){
+      this.count++;
     },
     countDown(){
-      this.count--
+      this.count--;
+    },
+    touchStart(e){
+      e.target.classList.add('touched');
+    },
+    touchEnd(e){
+      e.target.classList.remove('touched');
     }
   },
 
@@ -38,7 +52,6 @@ button {
   padding: 0;
   color: inherit;
   text-decoration: none;
-  cursor: pointer;
   background-color: transparent;
   border: none;
   outline: none;
@@ -54,14 +67,23 @@ button {
   cursor: pointer;
   background: white;
   color: blue;
-  &:hover {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  &.pc {
+    &:hover {
+      background: blue;
+      color: white;
+    }
+    &:active {
+      background: white;
+      color: blue;
+    }
+  }
+  &.touched {
     background: blue;
     color: white;
   }
-  &:active {
-    background: white;
-    color: blue;
-  }
-
 }
 </style>
